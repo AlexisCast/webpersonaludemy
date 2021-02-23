@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import routes from "./config/routes";
+
+import AdminHome from "./pages/Admin";
+import SignIn from "./pages/Admin/SignIn";
+import Home from "./pages/Home";
+import Contact from "./pages/Contact";
+import "./App.scss";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<Router>
+			<Switch>
+				{routes.map((route, index) => (
+					<RouteWithSubRoutes key={index} {...route} />
+				))}
+			</Switch>
+		</Router>
+	);
+}
+
+function RouteWithSubRoutes(route) {
+	console.log("RouteWithSubRoutesroute", route);
+	return (
+		<Route
+			path={route.path}
+			component={route.exact}
+			render={(props) => (
+				<route.component routes={route.routes} {...props} />
+			)}
+		/>
+	);
 }
 
 export default App;
